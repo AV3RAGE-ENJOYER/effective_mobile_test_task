@@ -1,0 +1,289 @@
+basePath: /api/v1
+definitions:
+  models.SongDetail:
+    properties:
+      link:
+        type: string
+      release_date:
+        type: string
+      text:
+        type: string
+    type: object
+  models.SongsInfo:
+    properties:
+      group:
+        type: string
+      link:
+        type: string
+      offset:
+        type: integer
+      release_date:
+        type: string
+      song:
+        type: string
+      text:
+        type: string
+    type: object
+  requests.AddSongRequest:
+    properties:
+      group:
+        type: string
+      link:
+        type: string
+      release_date:
+        type: string
+      song:
+        type: string
+      text:
+        type: string
+    type: object
+  requests.DeleteSongRequest:
+    properties:
+      group:
+        type: string
+      song:
+        type: string
+    type: object
+  requests.EditSongRequest:
+    properties:
+      group:
+        type: string
+      link:
+        type: string
+      release_date:
+        type: string
+      song:
+        type: string
+      text:
+        type: string
+    type: object
+host: 127.0.0.1:8080
+info:
+  contact:
+    email: andrushathegames@gmail.com
+    name: Andrei Dombrovskii
+  description: This is a test task for Juniour Go Developer in Effective Mobile.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Music library test task
+  version: "1.0"
+paths:
+  /add:
+    post:
+      consumes:
+      - application/json
+      description: Add song to the database
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.AddSongRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SongDetail'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Add song
+      tags:
+      - API
+  /delete:
+    delete:
+      consumes:
+      - application/json
+      description: Delete song from the database
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.DeleteSongRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Delete song
+      tags:
+      - API
+  /edit:
+    put:
+      consumes:
+      - application/json
+      description: Edit song in the database
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.EditSongRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Edit song
+      tags:
+      - API
+  /info:
+    get:
+      consumes:
+      - application/json
+      description: Get song info from the database
+      parameters:
+      - description: Group Name
+        in: query
+        name: group
+        required: true
+        type: string
+      - description: Song Name
+        in: query
+        name: song
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SongDetail'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "404":
+          description: Page not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get song info
+      tags:
+      - API
+  /library:
+    get:
+      consumes:
+      - application/json
+      description: Get library info from the database
+      parameters:
+      - description: Group Name
+        in: query
+        name: group
+        type: string
+      - description: Song Name
+        in: query
+        name: song
+        type: string
+      - description: Song Release Date
+        in: query
+        name: release_date
+        type: string
+      - description: Song Text
+        in: query
+        name: text
+        type: string
+      - description: Song Link
+        in: query
+        name: link
+        type: string
+      - description: Offset for pagination
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SongsInfo'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get library info
+      tags:
+      - API
+  /text:
+    get:
+      consumes:
+      - application/json
+      description: Get song text from the database
+      parameters:
+      - description: Group name
+        in: query
+        name: group
+        required: true
+        type: string
+      - description: Song name
+        in: query
+        name: song
+        required: true
+        type: string
+      - description: Offset for pagination
+        in: query
+        name: offset
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Text of the song
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "404":
+          description: Song not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get song text
+      tags:
+      - API
+swagger: "2.0"
